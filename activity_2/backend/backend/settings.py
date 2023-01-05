@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from apps.core.utils import get_value_env as env
+from decouple import config
 import warnings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,13 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
+#SOLUCION A SECRET_KEY
+SECRET_KEY = config("SECRET_KEY")
+
 if not env('SECRET_KEY'):
     warnings.warn((
                       "Please define SECRET_KEY before importing {0}, as a fallback "
                       "for when the environment variable is not available."
                   ).format(__name__))
 else:
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DJANGO_DEBUG", True)

@@ -1,6 +1,8 @@
 #Elegimos la imagen en la cual se basa el contenedor
 FROM python:3.8-alpine
 
+ENV PYTHONUNBUFFERED=1
+
 #Elegimos el directorio que utilizara dentro del contenedor
 WORKDIR /app
 
@@ -16,7 +18,9 @@ RUN apk add gcc && apk add libc-dev &&\
 COPY ./requirements.txt ./requirements.txt
 RUN pip3 install --upgrade pip &&\
     pip3 install cmake &&\
+    pip3 install python-decouple &&\
     pip3 install -r requirements.txt
+
 
 #Copiamos los archivos de la carpeta raiz dentro de la carpeta raiz del contenedor
 COPY . .
