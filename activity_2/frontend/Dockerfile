@@ -10,6 +10,8 @@ COPY . .
 #Instalacion de npm
 RUN npm install -g
 
+#Exposicion del puerto utilizado por React
 EXPOSE 3000
 
+#Corremos el server
 CMD ["npm", "start"]
