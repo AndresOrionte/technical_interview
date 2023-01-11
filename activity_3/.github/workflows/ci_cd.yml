@@ -1,0 +1,26 @@
+name: CI/CD task
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    name: Image building and deploy to minikube
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    -name:  Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Checking cluster
+      run:  kubectl get pods -A
+    - name: Build image
+      run:  |
+        export SHELL=/bin/bash
+        eval $(minikube -p minikube docker-env)
+        docker build -f ./activity_3/Dockerfile -t nginx-test .
+        echo -n "Verifying images:"
+        docker images
