@@ -1,8 +1,6 @@
 #Elegimos la imagen de nginx .
 FROM nginx:1.23.3
 
-WORKDIR /
-
 #Copiamos el index.html dentro del contenedor
 COPY ./html/index.html /usr/share/nginx/html
 

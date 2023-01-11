@@ -30,10 +30,8 @@ metadata:
 spec:
     selector:
       app: nginx
-    type: NodePort
     ports:
       - port: 80
-      NodePort: 31364
       targetPort: 80
       protocol: TCP
       name: http
