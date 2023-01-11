@@ -32,4 +32,4 @@ jobs:
         minikube service list
         minikube service nginx-service --url
         echo -n "------------------opening the service------------------"
-        curl $(minikube service nginx-service--url)/version
+        curl $(minikube service nginx-service --url)/version
