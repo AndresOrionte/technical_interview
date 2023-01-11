@@ -6,46 +6,27 @@ on:
   pull_request:
     branches: ["main"]
 
-env:
-  IMAGE_NAME: andresorionte/nginx-test
-
 jobs:
   build:
     runs-on: ubuntu-22.04
-    name: Build and push
+    name: Image building and deploy to minikube
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build and push
-      uses: docker/build-push-action@v3
-      with:
-        file: ./activity_3/Dockerfile
-        context: ./activity_3
-        push: true
-        tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
-
-  deploy:
-    runs-on: ubuntu-22.04
-    name: Deploy to cluster
-    needs: build
-    steps:
-    - uses: actions/checkout@v3
-    - name: deploy to cluster
-      uses: steebchen/kubectl@v2.0.0
-      with:
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        command: set image --record deployment/nginx-test container=${{ env.IMAGE_NAME }}:${{ github.sha }}
-    - name: verify deployment
-      uses: steebchen/kubectl@v2.0.0
-      with:
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        version: v1.21.0 # specify kubectl binary version explicitly
-        binaries-url: "https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl" # specify the download url explicitly
-        command: rollout status deployment/my-app
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Checking cluster
+      run:  kubectl get pods -A
+    - name: Build image
+      run:  |
+        export SHELL=/bin/bash
+        eval $(minikube -p minikube docker-env)
+        docker build -f ./activity_3/Dockerfile -t nginx-test ./activity_3
+        echo -n "Verifying images:"
+        docker images
+    - name: Deploy cluster using minikube
+      run: kubectl apply -f ./activity_3/deploy.yaml
+    - name: Test service
+      run:  |
+        minikube service list
+        curl $(minikube service nginx-service --url)
