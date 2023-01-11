@@ -27,7 +27,7 @@ jobs:
     - name: Deploy cluster using minikube
       run:  |
         kubectl apply -f ./activity_3/deploy.yaml
-        kubectl expose deployment nginx-test --name=nginx-test --type=LoadBalancer --target-port=80
+        kubectl expose deployment nginx --name=nginx --type=LoadBalancer --target-port=80
     - name: Test service
       run:  |
         minikube service list
