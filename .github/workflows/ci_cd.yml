@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    -name:  Start minikube
+    - name:  Start minikube
       uses: medyagh/setup-minikube@master
     - name: Checking cluster
       run:  kubectl get pods -A
