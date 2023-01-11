@@ -8,8 +8,8 @@ on:
 
 jobs:
   build:
-    - name: Image building and deploy to minikube
     runs-on: ubuntu-22.04
+    name: Image building and deploy to minikube
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
