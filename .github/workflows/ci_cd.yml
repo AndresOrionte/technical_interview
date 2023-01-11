@@ -25,12 +25,10 @@ jobs:
         echo -n "Verifying images:"
         docker images
     - name: Deploy cluster using minikube
-      run:  |
-        kubectl apply -f ./activity_3/deploy.yaml
-        kubectl expose deployment nginx --name=nginx --type=LoadBalancer --target-port=80
+      run:  kubectl apply -f ./activity_3/deploy.yaml
     - name: Test service
       run:  |
         minikube service list
-        minikube service nginx --url
+        minikube service nginx-service --url
         echo -n "------------------opening the service------------------"
-        curl $(minikube service nginx --url)/version
+        curl $(minikube service nginx-service --url)
