@@ -13,7 +13,8 @@ Elaborar el deployment dockerizado de una aplicación en django (backend) con fr
 Se deben entregar los Dockerfiles pertinentes para elaborar el despliegue y justificar la forma en la que elabora el deployment (supervisor, scripts, dockercompose, kubernetes, etc) 
 Subir todo lo elaborado a un repositorio (github, gitlab, bitbucket, etc). En el repositorio se debe incluir el código de la aplicación y un archivo README.md con instrucciones detalladas para compilar y desplegar la aplicación, tanto en una PC local como en la nube (AWS o GCP).
 
-## Prueba 3 - CI/CD Dockerizar un nginx con el index.html default. 
+## Prueba 3 - CI/CD 
+Dockerizar un nginx con el index.html default. 
 Elaborar un pipeline que ante cada cambio realizado sobre el index.html buildee la nueva imagen y la actualize en la plataforma elegida. (docker-compose, swarm, kuberenetes, etc.) Para la creacion del CI/CD se puede utilizar cualquier plataforma (CircleCI, Gitlab, Github, Bitbucket.)
 
 ### Requisitos y deseables:
