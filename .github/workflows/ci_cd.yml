@@ -9,16 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    name: Image building and deploy to minikube
+    name: Image build and push to dockerhub
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Build and push to docker
-      uses: docker/build-push-action@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: ${{ github.repository }}
-        tag_with_ref: true
-        tag_with_sha: true
-        tags: ${{ github.sha }}
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+          context: ./activity_3
+          push: true
+          tags: user/nginx-test:latest
