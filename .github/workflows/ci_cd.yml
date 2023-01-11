@@ -31,6 +31,6 @@ jobs:
     - name: Test service
       run:  |
         minikube service list
-        minikube service nginx-service --url
+        minikube service nginx --url
         echo -n "------------------opening the service------------------"
-        curl $(minikube service nginx-service --url)/version
+        curl $(minikube service nginx --url)/version
