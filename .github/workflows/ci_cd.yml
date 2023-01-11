@@ -21,6 +21,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-          context: ./activity_3
+          file: ./activity_3/Dockerfile
           push: true
-          tags: user/nginx-test:latest
+          tags: andresorionte/nginx-test:latest
