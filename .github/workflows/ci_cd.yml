@@ -7,13 +7,12 @@ on:
     branches: ["main"]
 
 env:
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: andresorionte/nginx-academy
+  IMAGE_NAME: andresorionte/nginx-test
 
 jobs:
   build:
     runs-on: ubuntu-22.04
-    name: Image build and push to dockerhub
+    name: Build and push
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -27,7 +26,25 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-          file: ./activity_3/Dockerfile
-          context: ./activity_3
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+        file: ./activity_3/Dockerfile
+        context: ./activity_3
+        push: true
+        tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-22.04
+    name: Deploy to cluster
+    needs: build
+    steps:
+    - name: deploy to cluster
+      uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: set image --record deployment/nginx-test container=${{ env.IMAGE_NAME }}:${{ github.sha }}
+    - name: verify deployment
+      uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        version: v1.21.0 # specify kubectl binary version explicitly
+        binaries-url: "https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl" # specify the download url explicitly
+        command: rollout status deployment/my-app
