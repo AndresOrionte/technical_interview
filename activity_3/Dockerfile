@@ -1,4 +1,4 @@
-#Elegimos la imagen de nginx
+#Elegimos la imagen de nginx .
 FROM nginx:1.23.3
 
 WORKDIR /
