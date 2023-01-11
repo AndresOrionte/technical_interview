@@ -24,3 +24,10 @@ jobs:
         docker build -f ./activity_3/Dockerfile -t nginx-test .
         echo -n "Verifying images:"
         docker images
+    - name: Deploy cluster using minikube
+      run: kubectl apply -f ./activity_3/deploy.yaml
+    - name: Test service
+      run:  |
+        minikube service list
+        curl $(minikube service nginx-test --url)
+        curl localhost:80
