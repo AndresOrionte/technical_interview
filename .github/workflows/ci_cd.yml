@@ -29,5 +29,5 @@ jobs:
     - name: Test service
       run:  |
         minikube service list
-        curl $(minikube service nginx-test --url)
+        curl $(minikube service nginx-service --url)
         curl localhost:80
