@@ -17,9 +17,9 @@ spec:
             containers:
                 - name: nginx-test
                   imagePullPolicy: Never
-                  image: local/nginx-test
+                  image: nginx-test
                   ports:
-                      - containerPort: 8080
+                      - containerPort: 80
 
 ---
 
@@ -33,4 +33,4 @@ spec:
         app: nginx
     ports:
         - port: 80
-          targetPort: 8080
+          targetPort: 80
