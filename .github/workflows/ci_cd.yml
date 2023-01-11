@@ -29,4 +29,6 @@ jobs:
     - name: Test service
       run:  |
         minikube service list
-        curl $(minikube service nginx-service --url)
+        minikube service discover --url
+        echo -n "------------------opening the service------------------"
+        curl $(minikube service discover --url)/version
